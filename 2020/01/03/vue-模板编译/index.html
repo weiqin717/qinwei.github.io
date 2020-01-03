@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="vue模板编译的过程">
+<meta name="description" content="先上代码12345678910const ast = parse(template.trim(), options)if (options.optimize !== false) &amp;#123;    optimize(ast, options)&amp;#125;const code = generate(ast, options)return &amp;#123;    ast,    render: code">
 <meta name="keywords" content="vue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue-模板编译">
 <meta property="og:url" content="http://yoursite.com/2020/01/03/vue-模板编译/index.html">
 <meta property="og:site_name" content="Nevermore">
-<meta property="og:description" content="vue模板编译的过程">
+<meta property="og:description" content="先上代码12345678910const ast = parse(template.trim(), options)if (options.optimize !== false) &amp;#123;    optimize(ast, options)&amp;#125;const code = generate(ast, options)return &amp;#123;    ast,    render: code">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-03T09:16:26.227Z">
+<meta property="og:updated_time" content="2020-01-03T09:22:51.915Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue-模板编译">
-<meta name="twitter:description" content="vue模板编译的过程">
+<meta name="twitter:description" content="先上代码12345678910const ast = parse(template.trim(), options)if (options.optimize !== false) &amp;#123;    optimize(ast, options)&amp;#125;const code = generate(ast, options)return &amp;#123;    ast,    render: code">
 
 
 
@@ -286,10 +286,6 @@
           
 
           
-              <div class="post-description">
-                  vue模板编译的过程
-              </div>
-          
 
         </div>
       </header>
@@ -305,6 +301,7 @@
 
       
         <p>先上代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ast = parse(template.trim(), options)</span><br><span class="line"><span class="keyword">if</span> (options.optimize !== <span class="literal">false</span>) &#123;</span><br><span class="line">    optimize(ast, options)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> code = generate(ast, options)</span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    ast,</span><br><span class="line">    render: code.render,</span><br><span class="line">    staticRenderFns: code.staticRenderFns</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <p>三件事情：</p>
 <ol>
 <li>把template解析成ast树</li>

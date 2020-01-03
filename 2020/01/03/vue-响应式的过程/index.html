@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="响应式的过程了解">
+<meta name="description" content="上一章了解了vue响应式的核心原理，今天来看看vue源码中响应式的过程 在Vue构造函数中有个_init()方法1this._init(); 进入此方法可以看到初始化方法，如下：12345678initLifecycle(vm)initEvents(vm)initRender(vm)callHook(vm, &apos;beforeCreate&apos;)initInjections(vm) // resolve">
 <meta name="keywords" content="vue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue-响应式的过程">
 <meta property="og:url" content="http://yoursite.com/2020/01/03/vue-响应式的过程/index.html">
 <meta property="og:site_name" content="Nevermore">
-<meta property="og:description" content="响应式的过程了解">
+<meta property="og:description" content="上一章了解了vue响应式的核心原理，今天来看看vue源码中响应式的过程 在Vue构造函数中有个_init()方法1this._init(); 进入此方法可以看到初始化方法，如下：12345678initLifecycle(vm)initEvents(vm)initRender(vm)callHook(vm, &apos;beforeCreate&apos;)initInjections(vm) // resolve">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-03T09:12:46.236Z">
+<meta property="og:updated_time" content="2020-01-03T09:23:10.483Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue-响应式的过程">
-<meta name="twitter:description" content="响应式的过程了解">
+<meta name="twitter:description" content="上一章了解了vue响应式的核心原理，今天来看看vue源码中响应式的过程 在Vue构造函数中有个_init()方法1this._init(); 进入此方法可以看到初始化方法，如下：12345678initLifecycle(vm)initEvents(vm)initRender(vm)callHook(vm, &apos;beforeCreate&apos;)initInjections(vm) // resolve">
 
 
 
@@ -286,10 +286,6 @@
           
 
           
-              <div class="post-description">
-                  响应式的过程了解
-              </div>
-          
 
         </div>
       </header>
@@ -307,6 +303,7 @@
         <p>上一章了解了vue响应式的核心原理，今天来看看vue源码中响应式的过程</p>
 <p>在Vue构造函数中有个_init()方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>._init();</span><br></pre></td></tr></table></figure></p>
 <p>进入此方法可以看到初始化方法，如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">initLifecycle(vm)</span><br><span class="line">initEvents(vm)</span><br><span class="line">initRender(vm)</span><br><span class="line">callHook(vm, <span class="string">'beforeCreate'</span>)</span><br><span class="line">initInjections(vm) <span class="comment">// resolve injections before data/props</span></span><br><span class="line">initState(vm)</span><br><span class="line">initProvide(vm) <span class="comment">// resolve provide after data/props</span></span><br><span class="line">callHook(vm, <span class="string">'created'</span>)</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <p>其中initState()会初始化data、prop、method等，在这里面也可以看到initState()是在beforeCreate后，created前执行的，这也可以理解两个生命周期中间数据的初始化情况；</p>
 <p>进入initState()后我们再看initData()，initData主要做的事情，遍历data数据把vm._data.xxx代理到vm.xxx<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy(vm, <span class="string">`_data`</span>, key)</span><br></pre></td></tr></table></figure></p>
 <p>之后调用<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">observe(data, <span class="literal">true</span> <span class="comment">/* asRootData */</span>)</span><br></pre></td></tr></table></figure></p>
