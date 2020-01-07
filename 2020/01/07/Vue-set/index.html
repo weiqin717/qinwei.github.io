@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637//遍历app实例中data的所有属性function observe(data)&amp;#123;    Object.keys(data).forEach((key)=&amp;gt;&amp;#123;        defineReactive(data, key, data[key">
+<meta name="description" content="Vue不能检测或者相应哪几种数据的变化：  当你利用索引直接设置一个数组项时，例如：vm.items[indexOfItem] = newValue； 当你修改数组的长度时，例如：vm.items.length = newLength； 对于已经创建的实例，Vue 不允许动态添加根级别的响应式属性；（这种工作中遇到过，但是当时没有深究原理）如下：">
 <meta name="keywords" content="vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue.js 响应式原理">
-<meta property="og:url" content="http://yoursite.com/2019/12/27/vue-响应式原理/index.html">
+<meta property="og:title" content="Vue.set">
+<meta property="og:url" content="http://yoursite.com/2020/01/07/Vue-set/index.html">
 <meta property="og:site_name" content="Nevermore">
-<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637//遍历app实例中data的所有属性function observe(data)&amp;#123;    Object.keys(data).forEach((key)=&amp;gt;&amp;#123;        defineReactive(data, key, data[key">
+<meta property="og:description" content="Vue不能检测或者相应哪几种数据的变化：  当你利用索引直接设置一个数组项时，例如：vm.items[indexOfItem] = newValue； 当你修改数组的长度时，例如：vm.items.length = newLength； 对于已经创建的实例，Vue 不允许动态添加根级别的响应式属性；（这种工作中遇到过，但是当时没有深究原理）如下：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-03T09:23:19.357Z">
+<meta property="og:updated_time" content="2020-01-07T03:20:32.612Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vue.js 响应式原理">
-<meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031323334353637//遍历app实例中data的所有属性function observe(data)&amp;#123;    Object.keys(data).forEach((key)=&amp;gt;&amp;#123;        defineReactive(data, key, data[key">
+<meta name="twitter:title" content="Vue.set">
+<meta name="twitter:description" content="Vue不能检测或者相应哪几种数据的变化：  当你利用索引直接设置一个数组项时，例如：vm.items[indexOfItem] = newValue； 当你修改数组的长度时，例如：vm.items.length = newLength； 对于已经创建的实例，Vue 不允许动态添加根级别的响应式属性；（这种工作中遇到过，但是当时没有深究原理）如下：">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/12/27/vue-响应式原理/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/01/07/Vue-set/"/>
 
 
 
 
 
-  <title>Vue.js 响应式原理 | Nevermore</title>
+  <title>Vue.set | Nevermore</title>
   
 
 
@@ -233,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/27/vue-响应式原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/07/Vue-set/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Nevermore">
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Vue.js 响应式原理</h1>
+          <h1 class="post-title" itemprop="name headline">Vue.set</h1>
         
 
         <div class="post-meta">
@@ -262,8 +262,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-27T13:14:21+08:00">
-                2019-12-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-07T11:05:21+08:00">
+                2020-01-07
               </time>
             
 
@@ -300,10 +300,16 @@
       
 
       
-        <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//遍历app实例中data的所有属性</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">Object</span>.keys(data).forEach(<span class="function">(<span class="params">key</span>)=&gt;</span>&#123;</span><br><span class="line">        defineReactive(data, key, data[key])</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//每个属性挂载到Object.defineProperty</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">obj, key, val</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</span><br><span class="line">        enumerable: <span class="literal">true</span>,</span><br><span class="line">        configurable: <span class="literal">true</span>,</span><br><span class="line">        get: <span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> val</span><br><span class="line">        &#125;,</span><br><span class="line">        set: <span class="function">(<span class="params">newVal</span>)=&gt;</span>&#123;</span><br><span class="line">            <span class="comment">// 赋值时可以在此监听到数据的变化</span></span><br><span class="line">            val = newVal</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// vue源码中并未用class来实现构造函数，而是用的function</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vue</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(options)&#123;</span><br><span class="line">        <span class="keyword">this</span>._data = options.data;</span><br><span class="line">        observe(options.data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el: <span class="string">'#app'</span>,</span><br><span class="line">    data: &#123;</span><br><span class="line">        name: <span class="string">'qwer'</span>,</span><br><span class="line">        age: <span class="number">15</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//此时app.name或app.age并不会取到值，以下增加代理</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>增加代理</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_proxy</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> that = <span class="keyword">this</span>;</span><br><span class="line">    <span class="built_in">Object</span>.keys(data).forEach(<span class="function">(<span class="params">key</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="built_in">Object</span>.defineProperty(that, key, &#123;</span><br><span class="line">            enumerable: <span class="literal">true</span>,</span><br><span class="line">            configurable: <span class="literal">true</span>,</span><br><span class="line">            get: <span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> that._data[key]</span><br><span class="line">            &#125;,</span><br><span class="line">            set: <span class="function">(<span class="params">newVal</span>)=&gt;</span>&#123;</span><br><span class="line">                that._data[key] = newVal</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//构造函数中新增</span></span><br><span class="line">_proxy.call(<span class="keyword">this</span>, options.data)</span><br><span class="line"><span class="comment">// 此时app.name = 'qwer' app.age = 15</span></span><br></pre></td></tr></table></figure>
+        <p>Vue不能检测或者相应哪几种数据的变化：</p>
+<ol>
+<li>当你利用索引直接设置一个数组项时，例如：vm.items[indexOfItem] = newValue；</li>
+<li>当你修改数组的长度时，例如：vm.items.length = newLength；</li>
+<li>对于已经创建的实例，Vue 不允许动态添加根级别的响应式属性；（这种工作中遇到过，但是当时没有深究原理）如下：<a id="more"></a>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    a: <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// `vm.a` 现在是响应式的</span></span><br><span class="line"></span><br><span class="line">vm.b = <span class="number">2</span></span><br><span class="line"><span class="comment">// `vm.b` 不是响应式的</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>以上3中情况，都可以通过Vue.set方法来解决<br>Vue.set(object | Array, key, val);<br>看下源码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">set</span> (<span class="params">target: Array&lt;any&gt; | Object, key: any, val: any</span>): <span class="title">any</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp;</span><br><span class="line">    (isUndef(target) || isPrimitive(target))</span><br><span class="line">  ) &#123;</span><br><span class="line">    warn(<span class="string">`Cannot set reactive property on undefined, null, or primitive value: <span class="subst">$&#123;(target: any)&#125;</span>`</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(target) &amp;&amp; isValidArrayIndex(key)) &#123;</span><br><span class="line">    target.length = <span class="built_in">Math</span>.max(target.length, key)</span><br><span class="line">    target.splice(key, <span class="number">1</span>, val)</span><br><span class="line">    <span class="keyword">return</span> val</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (key <span class="keyword">in</span> target &amp;&amp; !(key <span class="keyword">in</span> <span class="built_in">Object</span>.prototype)) &#123;</span><br><span class="line">    target[key] = val</span><br><span class="line">    <span class="keyword">return</span> val</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> ob = (target: any).__ob__</span><br><span class="line">  <span class="keyword">if</span> (target._isVue || (ob &amp;&amp; ob.vmCount)) &#123;</span><br><span class="line">    process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; warn(</span><br><span class="line">      <span class="string">'Avoid adding reactive properties to a Vue instance or its root $data '</span> +</span><br><span class="line">      <span class="string">'at runtime - declare it upfront in the data option.'</span></span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> val</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!ob) &#123;</span><br><span class="line">    target[key] = val</span><br><span class="line">    <span class="keyword">return</span> val</span><br><span class="line">  &#125;</span><br><span class="line">  defineReactive(ob.value, key, val)</span><br><span class="line">  ob.dep.notify()</span><br><span class="line">  <span class="keyword">return</span> val</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 首先判断了非生产环境下并且不是undefined、null和其他原始类型，</span></span><br><span class="line"><span class="comment">// 然后判断了Array，数组是用的splice此方法，</span></span><br><span class="line"><span class="comment">// Object是直接修改，如果以上都不成立则创建一个新的属性，</span></span><br><span class="line"><span class="comment">// 最后给target直接复制，调用defineReactive方法加入响应式。</span></span><br></pre></td></tr></table></figure></p>
+
       
     </div>
     
@@ -333,15 +339,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2020/01/06/v-for/" rel="next" title="详解vue中的v-for">
+                <i class="fa fa-chevron-left"></i> 详解vue中的v-for
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/01/03/vue-响应式的过程/" rel="prev" title="vue-响应式的过程">
-                vue-响应式的过程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
