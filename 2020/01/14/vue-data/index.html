@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="先上代码12345678910const ast = parse(template.trim(), options)if (options.optimize !== false) &amp;#123;    optimize(ast, options)&amp;#125;const code = generate(ast, options)return &amp;#123;    ast,    render: code">
+<meta name="description" content="vue组件中的data为什么必须是函数，先看下官网的解释： 当一个组件被定义，data 必须声明为返回一个初始数据对象的函数，因为组件可能被用来创建多个实例。如果 data 仍然是一个纯粹的对象，则所有的实例将共享引用同一个数据对象！通过提供 data 函数，每次创建一个新实例后，我们能够调用 data 函数，从而返回初始数据的一个全新副本数据对象。如下例子：1234567891011121314">
 <meta name="keywords" content="vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vue-模板编译">
-<meta property="og:url" content="http://yoursite.com/2020/01/03/vue-模板编译/index.html">
+<meta property="og:title" content="vue-data">
+<meta property="og:url" content="http://yoursite.com/2020/01/14/vue-data/index.html">
 <meta property="og:site_name" content="Nevermore">
-<meta property="og:description" content="先上代码12345678910const ast = parse(template.trim(), options)if (options.optimize !== false) &amp;#123;    optimize(ast, options)&amp;#125;const code = generate(ast, options)return &amp;#123;    ast,    render: code">
+<meta property="og:description" content="vue组件中的data为什么必须是函数，先看下官网的解释： 当一个组件被定义，data 必须声明为返回一个初始数据对象的函数，因为组件可能被用来创建多个实例。如果 data 仍然是一个纯粹的对象，则所有的实例将共享引用同一个数据对象！通过提供 data 函数，每次创建一个新实例后，我们能够调用 data 函数，从而返回初始数据的一个全新副本数据对象。如下例子：1234567891011121314">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-03T09:22:51.915Z">
+<meta property="og:updated_time" content="2020-01-14T05:41:23.060Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vue-模板编译">
-<meta name="twitter:description" content="先上代码12345678910const ast = parse(template.trim(), options)if (options.optimize !== false) &amp;#123;    optimize(ast, options)&amp;#125;const code = generate(ast, options)return &amp;#123;    ast,    render: code">
+<meta name="twitter:title" content="vue-data">
+<meta name="twitter:description" content="vue组件中的data为什么必须是函数，先看下官网的解释： 当一个组件被定义，data 必须声明为返回一个初始数据对象的函数，因为组件可能被用来创建多个实例。如果 data 仍然是一个纯粹的对象，则所有的实例将共享引用同一个数据对象！通过提供 data 函数，每次创建一个新实例后，我们能够调用 data 函数，从而返回初始数据的一个全新副本数据对象。如下例子：1234567891011121314">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/01/03/vue-模板编译/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/01/14/vue-data/"/>
 
 
 
 
 
-  <title>vue-模板编译 | Nevermore</title>
+  <title>vue-data | Nevermore</title>
   
 
 
@@ -233,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/vue-模板编译/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/14/vue-data/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Nevermore">
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">vue-模板编译</h1>
+          <h1 class="post-title" itemprop="name headline">vue-data</h1>
         
 
         <div class="post-meta">
@@ -262,8 +262,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-03T17:13:38+08:00">
-                2020-01-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-14T12:49:13+08:00">
+                2020-01-14
               </time>
             
 
@@ -300,14 +300,8 @@
       
 
       
-        <p>先上代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ast = parse(template.trim(), options)</span><br><span class="line"><span class="keyword">if</span> (options.optimize !== <span class="literal">false</span>) &#123;</span><br><span class="line">    optimize(ast, options)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> code = generate(ast, options)</span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    ast,</span><br><span class="line">    render: code.render,</span><br><span class="line">    staticRenderFns: code.staticRenderFns</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<p>三件事情：</p>
-<ol>
-<li>把template解析成ast树</li>
-<li>优化ast树</li>
-<li>返回render函数</li>
-</ol>
+        <p>vue组件中的data为什么必须是函数，先看下官网的解释：</p>
+<p>当一个组件被定义，data 必须声明为返回一个初始数据对象的函数，因为组件可能被用来创建多个实例。如果 data 仍然是一个纯粹的对象，则所有的实例将共享引用同一个数据对象！通过提供 data 函数，每次创建一个新实例后，我们能够调用 data 函数，从而返回初始数据的一个全新副本数据对象。<br>如下例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 共享data属性</span></span><br><span class="line"><span class="keyword">let</span> options = &#123;</span><br><span class="line">    data: &#123;</span><br><span class="line">        name: <span class="string">'qwer'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Fn</span>(<span class="params">options</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.data = options.data</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> f1 = <span class="keyword">new</span> Fn(options);</span><br><span class="line"><span class="keyword">let</span> f2 = <span class="keyword">new</span> Fn(options);</span><br><span class="line"><span class="built_in">console</span>.log(f1.data.name,f2.data.name); <span class="comment">// qwer qwer</span></span><br><span class="line">f2.data.name = <span class="string">'aaa'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(f1.data.name,f2.data.name); <span class="comment">// aaa aaa</span></span><br><span class="line"><span class="comment">/***************************************************/</span></span><br><span class="line"><span class="comment">// 独立data属性</span></span><br><span class="line"><span class="keyword">let</span> options = &#123;</span><br><span class="line">    data: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="attr">name</span>: <span class="string">'qwer'</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Fn</span>(<span class="params">options</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.data = options.data();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> f1 = <span class="keyword">new</span> Fn(options);</span><br><span class="line"><span class="keyword">let</span> f2 = <span class="keyword">new</span> Fn(options);</span><br><span class="line"><span class="built_in">console</span>.log(f1.data.name,f2.data.name); <span class="comment">// qwer qwer</span></span><br><span class="line">f2.data.name = <span class="string">'aaa'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(f1.data.name,f2.data.name); <span class="comment">// qwer aaa</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -338,8 +332,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/01/03/vue-响应式的过程/" rel="next" title="vue-响应式的过程">
-                <i class="fa fa-chevron-left"></i> vue-响应式的过程
+              <a href="/2020/01/12/浅拷贝-深拷贝/" rel="next" title="浅拷贝/深拷贝">
+                <i class="fa fa-chevron-left"></i> 浅拷贝/深拷贝
               </a>
             
           </div>
@@ -347,10 +341,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/01/06/v-for/" rel="prev" title="详解vue中的v-for">
-                详解vue中的v-for <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
