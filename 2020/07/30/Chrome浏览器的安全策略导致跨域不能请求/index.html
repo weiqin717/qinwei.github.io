@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Nevermore">
 <meta property="og:description" content="今天本地跑项目，接口一直报跨域的错误，但是换了Firefox浏览器之后居然可以访问，而且检查了响应头是已经加过允许跨域的响应头了，这种情况基本可以判定是浏览器设置的问题了，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-07-30T06:47:06.162Z">
+<meta property="og:updated_time" content="2020-08-12T07:19:43.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chrome浏览器的安全策略导致跨域不能请求">
 <meta name="twitter:description" content="今天本地跑项目，接口一直报跨域的错误，但是换了Firefox浏览器之后居然可以访问，而且检查了响应头是已经加过允许跨域的响应头了，这种情况基本可以判定是浏览器设置的问题了，">
@@ -299,7 +299,8 @@
       
 
       
-        <p>今天本地跑项目，接口一直报跨域的错误，但是换了Firefox浏览器之后居然可以访问，而且检<br>查了响应头是已经加过允许跨域的响应头了，这种情况基本可以判定是浏览器设置的问题了，<br><a id="more"></a><br>通过Goole查询之后，发现是Chrome的安全策略导致的，Mac可以通过终端命令开启一个禁止安全<br>策略的浏览器窗口<br>open -n /Applications/Google\ Chrome.app/ –args –disable-web-security  –user-data-dir=/Users/username/MyChromeDevUserData/<br>其中的username是你本机的名字<br>以上方法就可以解决Chrome浏览器的跨域问题了，但是关闭了上述的浏览器窗口之后需重新输入上述命令再打开才可以使用</p>
+        <p>今天本地跑项目，接口一直报跨域的错误，但是换了Firefox浏览器之后居然可以访问，而且检<br>查了响应头是已经加过允许跨域的响应头了，这种情况基本可以判定是浏览器设置的问题了，<br><a id="more"></a><br>通过Goole查询之后，发现是Chrome的安全策略导致的，Mac可以通过终端命令开启一个禁止安全<br>策略的浏览器窗口<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open -n /Applications/Google\ Chrome.app/ --args --disable-web-security  --user-data-dir=<span class="regexp">/Users/u</span>sername/MyChromeDevUserData/</span><br></pre></td></tr></table></figure></p>
+<p>其中的username是你本机的名字<br>以上方法就可以解决Chrome浏览器的跨域问题了，但是关闭了上述的浏览器窗口之后需重新输入上述命令再打开才可以使用</p>
 
       
     </div>
